@@ -130,25 +130,40 @@
             renderQuestion();
         }
 
-        function submitData() {
-            const container = document.getElementById('question-container');
-            container.innerHTML = `
-                <div class="text-center py-10">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-800">Survey Complete!</h3>
-                    <p class="text-gray-500 mt-2">Thank you for helping us shape the future of work.</p>
-                </div>
-            `;
-            document.getElementById('prev-btn').style.display = 'none';
-            document.getElementById('next-btn').style.display = 'none';
-            
-            // For the presentation: This logs the JSON payload to the browser console.
-            // You can copy this data structure to plug into your Analytics Dashboard.
-            console.log("SURVEY PAYLOAD FOR PRESENTATION DATA:", JSON.stringify(responses, null, 2));
-        }
+function submitData() {
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyttdptKsCLBduZLnlx2_qSk9acV9JvwbWboUNg8bUCekwUjFHivEAx26iWNgkxrHy0/exec';
 
+    const container = document.getElementById('question-container');
+    container.innerHTML = `
+        <div class="text-center py-10">
+            <div class="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <h3 class="text-xl font-bold text-gray-800">Saving your responses...</h3>
+        </div>
+    `;
+    document.getElementById('prev-btn').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'none';
+
+    fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(responses)
+    })
+    .then(() => {
+        container.innerHTML = `
+            <div class="text-center py-10">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800">Survey Complete!</h3>
+                <p class="text-gray-500 mt-2">Thank you for helping us shape the future of work.</p>
+            </div>
+        `;
+    })
+    .catch(error => {
+        console.error('Error!', error.message);
+    });
+}
         // Add simple fade animation
         document.head.insertAdjacentHTML('beforeend', '<style>.animate-fade-in { animation: fadeIn 0.3s ease-in-out; } @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }</style>');
 
