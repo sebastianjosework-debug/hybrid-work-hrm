@@ -45,7 +45,7 @@
             // Demographics
             { id: 'q1', type: 'radio', text: '1. Which age group do you belong to?', options: ['Under 25', '26 - 35', '36 - 45', '46 and above'] },
             { id: 'q2', type: 'radio', text: '2. Which department are you in?', options: ['Engineering / IT', 'Product / Design', 'Sales / Marketing', 'Ops / HR / Finance'] },
-            { id: 'q3', type: 'radio', text: '3. What is your current base location?', options: ['Bengaluru', 'Delhi NCR', 'Pune / Hyderabad', 'Tier-2/3 City (Remote)'] },
+            { id: 'q3', type: 'radio', text: '3. What is your current base location?', options: ['Mumbai', 'Bengaluru', 'Delhi NCR', 'Pune / Hyderabad', 'Tier-2/3 City (Remote)'] },
             { id: 'q4', type: 'radio', text: '4. What is your biggest Work-From-Home challenge?', options: ['Lack of quiet space / Family distractions', 'Power / Internet disruptions', 'Isolation / Lack of mentorship', 'I have no WFH challenges'] },
             
             // Commute Friction
@@ -131,7 +131,7 @@
         }
 
 function submitData() {
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyttdptKsCLBduZLnlx2_qSk9acV9JvwbWboUNg8bUCekwUjFHivEAx26iWNgkxrHy0/exec';
+    const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
 
     const container = document.getElementById('question-container');
     container.innerHTML = `
@@ -146,7 +146,7 @@ function submitData() {
     fetch(scriptURL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(responses)
     })
     .then(() => {
